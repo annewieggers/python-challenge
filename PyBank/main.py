@@ -3,71 +3,75 @@ import csv
 import os
 
 # set path for file
-budgetcsv = os.path.join("Resources", "budget_data.csv")
+budgetcsv = os.path.join("PyBank", "Resources", "budget_data.csv")
 
-# open and read csv
+# open and read csv and skip the header
 with open(budgetcsv, newline='') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
     csv_header = next(csvreader)
 
-# Read the header row first (skip this part if there is no header)
-    #csv_header = next(csvreader)
-
-            # set variables and assign values where possible
-            # total_months = 0
-            #net_amount = 0
-            #pl = int(row[1]) 
-            #previous_pl = 0
-            #change_pl = 0
-            #total_change = []
-            #average_change = 0
-            #greatest_increase = []
-            #greatest_decrease = []
-
-
-# Read through each row of data after the header
+    # set variables and assign values
+    
+    total_months = 0
+    net_total = 0
+    previous_pl = 0
+    change_pl = 0
+    track_change_pl = 0
+    average_changes = []
+    max_increase = 0
+    max_decrease = 0
+    
+    # read through each row after the header
     for row in csvreader:
 
-        # calculate the total months
-        #total_months = total_months + 1
+    # Calculate the total number of months included in the dataset NEED TO ADD ONE MORE?
+        total_months = total_months + 1
 
-        # calculate the net amount of profit/loss
-        #net_amount.append(row[1]) - when is .append required? always or only when working with a list?
-        #net_amount = net_amount + int(row[1])
+    # Calculate net total amount of "Profit/Losses" over the entire period CONFIRM TOTAL AMOUNT
+        net_total = net_total + int(row[1])
 
-        # calculate the average of the change in profit/loss
-        #change_pl = pl - previous_pl
+    # Calculate the average of the changes in "Profit/Losses" over the entire period
 
-        # add up revenue changes
-        #total_change.append(change_pl)
-        #total_change = sum(change_pl)
+        pl = int(row[1])
 
-        #average_change = total_change
-        # total_change/len(total_change)
+        if total_months == 1:
+            previous_pl = pl
+        else:
+            change_pl = pl - previous_pl
+            track_change_pl = track_change_pl + change_pl
+            previous_pl = int(row[1])
 
-        # reset the pl to become the previous_pl
-        # previous_pl = int(row[1])
+    # Calculate the greatest increase and decrease in profits (date and amount) over the entire period
+        if change_pl > max_increase:
+            max_increase = change_pl
+            date_increase = row[0]
         
-        # determine greatest increase
-        #greatest_increase = max(average_change)
-        #if average_change > 
+        if change_pl < max_decrease:
+            max_decrease = change_pl
+            date_decrease = row[0]
 
-        # determine greatest decrease
-        #greatest_decrease = max(average_change)
+# calculate the average, taking into account the number of change_pl is less than the amount
+average_changes = round(track_change_pl/(total_months - 1),2)
 
+# prepare output summary to print
+print("Financial Analysis")
+print(f"----------------------------")
+print(f"Total months: {total_months}")
+print(f"Total: $ {net_total}")
+print(f"Average Change $ {average_changes}")
+print(f"Greatest Increase in Profits: {date_increase} (${max_increase})")
+print(f"Greatest Decrease in Profits: {date_decrease} (${max_decrease})")
 
+# set path for file to write to
+outputpath = os.path.join("PyBank", "Resources", "budget_data.csv")
 
+# open and write
+with open(output_path, 'w', newline='') as text_file:
+    text_file.write("Financial Analysis")
+    text_file.write(f"----------------------------")
+    text_file.write(f"Total months: {total_months}")
+    text_file.write(f"Total: $ {net_total}")
+    text_file.write(f"Average Change $ {average_changes}")
+    text_file.write(f"Greatest Increase in Profits: {date_increase} (${max_increase})")
+    text_file.write(f"Greatest Decrease in Profits: {date_decrease} (${max_decrease})")
 
-# create an output file
-
-output_path = os.path.join("output", "new.csv")
-
-with open(output_path, 'w', newline='') as csvfile:
-    csvwriter = csv.writer(csvfile, delimiter=',')
-        #print("Financial Analysis")
-        #print(f"----------------------------")
-        #print(f"Total months str(total_months))
-        #print(f"Total")
-        #print(f"Average change $str(average_changes)")
-        #print(f"Greatest Increase in Profits str(greatest_increase)")
-        #print(f"Greatest Decrease in Profits str(greated_decrease)")
