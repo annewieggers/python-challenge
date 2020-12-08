@@ -21,29 +21,22 @@ with open(electioncsv, newline='') as csvfile:
     for row in csvreader:
         # Calculate the total number of votes cast
         total_votes = total_votes + 1
-
-        # Obtain a list of unique candidates
-        ##if row[2] not in unique_candidates:
-            ##unique_candidates.append(row[2])
      
         # Make a list of all votes
         list_candidates.append(row[2])
 
-       # Create a set of list_candidates to obtain unique values and print list of unique candidates
+    # Create a set of list_candidates to obtain unique values and print list of unique candidates
     set_candidates = set(list_candidates)
     unique_candidates = list(set_candidates)
 
-        # For each unique candidate, add votes from the list of all votes to the candidates_vote list and count
+    # For each unique candidate, add votes from the list of all votes to the candidates_vote list and count
     for candidate in unique_candidates:
         candidate_votes.append(list_candidates.count(candidate))
     
-    
-
     # Determine percentages 
     perc_candidate_votes[:] = ([x / total_votes for x in candidate_votes])
     
-
-    # determine most votes and corresponding name 
+    # Determine most votes and corresponding name 
     most_votes = max(candidate_votes)
     winner = unique_candidates[candidate_votes.index(most_votes)]
 
