@@ -41,13 +41,15 @@ with open(electioncsv, newline='') as csvfile:
     most_votes = max(candidate_votes)
     winner = unique_candidates[candidate_votes.index(most_votes)]
 
+    # zip tables
+    table = zip(unique_candidates, perc_candidate_votes, candidate_votes)
+
 print("Election Results")    
 print("-------------------------")
 print(f"Total Votes: {total_votes}")
 print("-------------------------")
-table = zip(unique_candidates, perc_candidate_votes, candidate_votes)
-for unique_cand in table:
-    print(unique_cand)
+for unique_cand, perc, vote in table:
+    print(f"{unique_cand}: {perc} % ({vote})")
 print("-------------------------")
 print(f"Winner: {winner}")
 print("-------------------------")
@@ -62,8 +64,8 @@ with open(output_path, 'w', newline='') as text_file:
     text_file.write(f"Total Votes: {total_votes}\n")
     text_file.write(f"-------------------------\n")
     table = zip(unique_candidates, perc_candidate_votes, candidate_votes)
-    for unique_cand in table:
-        text_file.write(f"{unique_cand}\n")
+    for unique_cand, perc, vote in table:
+        text_file.write(f"{unique_cand}: {perc}% ({vote})")
     text_file.write(f"-------------------------\n")
     text_file.write(f"Winner: {winner}\n")
     text_file.write(f"-------------------------")
