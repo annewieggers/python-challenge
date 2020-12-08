@@ -65,7 +65,7 @@ with open(output_path, 'w', newline='') as text_file:
     text_file.write(f"-------------------------\n")
     table = zip(unique_candidates, perc_candidate_votes, candidate_votes)
     for unique_cand, perc, vote in table:
-        text_file.write(f"{unique_cand}: {perc}% ({vote})")
+        text_file.write(f"{unique_cand}: {perc}% ({vote})\n")
     text_file.write(f"-------------------------\n")
     text_file.write(f"Winner: {winner}\n")
     text_file.write(f"-------------------------")
