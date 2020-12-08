@@ -25,6 +25,7 @@ with open(electioncsv, newline='') as csvfile:
         # Make a list of all votes
         list_candidates.append(row[2])
 
+
     # Create a set of list_candidates to obtain unique values and print list of unique candidates
     set_candidates = set(list_candidates)
     unique_candidates = list(set_candidates)
@@ -35,7 +36,7 @@ with open(electioncsv, newline='') as csvfile:
     
     # Determine percentages 
     perc_candidate_votes[:] = ([x / total_votes for x in candidate_votes])
-    
+
     # Determine most votes and corresponding name 
     most_votes = max(candidate_votes)
     winner = unique_candidates[candidate_votes.index(most_votes)]
@@ -44,8 +45,9 @@ print("Election Results")
 print("-------------------------")
 print(f"Total Votes: {total_votes}")
 print("-------------------------")
-for i in range(len(unique_candidates)):
-        print(f"{unique_candidates[i]}: {perc_candidate_votes[i]} % {candidate_votes[i]}")  
+table = zip(unique_candidates, perc_candidate_votes, candidate_votes)
+for unique_cand in table:
+    print(unique_cand)
 print("-------------------------")
 print(f"Winner: {winner}")
 print("-------------------------")
@@ -59,9 +61,9 @@ with open(output_path, 'w', newline='') as text_file:
     text_file.write(f"-------------------------\n")
     text_file.write(f"Total Votes: {total_votes}\n")
     text_file.write(f"-------------------------\n")
-    text_file.write(f"{unique_candidates}\n")
-    text_file.write(f"{perc_candidate_votes} %\n")
-    text_file.write(f"{candidate_votes}\n")
+    table = zip(unique_candidates, perc_candidate_votes, candidate_votes)
+    for unique_cand in table:
+        text_file.write(f"{unique_cand}\n")
     text_file.write(f"-------------------------\n")
     text_file.write(f"Winner: {winner}\n")
     text_file.write(f"-------------------------")
